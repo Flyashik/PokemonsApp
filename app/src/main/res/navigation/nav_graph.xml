@@ -8,7 +8,10 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.pokemons.screens.MainFragment"
-        android:label="Main Fragment">
+        android:label="Catch Pokemons!">
+        <action
+            android:id="@+id/action_mainFragment_to_pokemonsFragment"
+            app:destination="@id/pokemonsFragment" />
         <action
             android:id="@+id/action_mainFragment_to_pokemonDetailFragment"
             app:destination="@id/pokemonDetailFragment" />
@@ -17,14 +20,39 @@
     <fragment
         android:id="@+id/pokemonDetailFragment"
         android:name="com.example.pokemons.screens.PokemonDetailsFragment"
-        android:label="Pokemon Detail Fragment">
+        android:label="Pokemon">
         <argument
             android:name="pokemon"
             app:argType="com.example.pokemons.model.Pokemon"
             app:nullable="true"
             android:defaultValue="@null" />
+        <argument
+            android:name="label"
+            app:argType="string"
+            android:defaultValue="Pokemon" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pokemonsFragment"
+        android:name="com.example.pokemons.screens.PokemonsFragment"
+        android:label="Pokemons" >
         <action
-            android:id="@+id/action_pokemonDetailFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            android:id="@+id/action_pokemonsFragment_to_pokemonDetailDbFragment"
+            app:destination="@id/pokemonDetailDbFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pokemonDetailDbFragment"
+        android:name="com.example.pokemons.screens.PokemonDetailsDbFragment"
+        android:label="Pokemon">
+        <argument
+            android:name="pokemons"
+            app:argType="com.example.pokemons.model.Pokemon[]"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="selectedPokemonIndex"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

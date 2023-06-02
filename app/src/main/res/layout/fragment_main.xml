@@ -8,13 +8,20 @@
     <EditText
         android:id="@+id/pokemonNameEditText"
         android:layout_width="367dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Enter Pokemon Name" />
 
     <Button
         android:id="@+id/searchButton"
         android:layout_width="174dp"
         android:layout_height="65dp"
-        android:text="Search" />
+        android:text="Catch!" />
+
+    <Button
+        android:id="@+id/getPokemonListButton"
+        android:layout_width="174dp"
+        android:layout_height="65dp"
+        android:text="My Pokemons"
+        />
 
 </LinearLayout>

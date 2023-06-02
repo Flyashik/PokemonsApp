@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.pokemons.db.PokemonDao
 import com.example.pokemons.db.PokemonEntity
 import com.example.pokemons.model.Pokemon
+import com.example.pokemons.model.PokemonSprites
 import com.example.pokemons.model.PokemonStat
 import com.example.pokemons.model.PokemonStatInfo
 import retrofit2.Retrofit
@@ -20,7 +21,7 @@ class PokemonRepository(private val pokemonDao: PokemonDao) {
     }
 
     suspend fun getPokemonByName(name: String): Pokemon {
-        val pokemonResponse = apiService.getPokemonByName(name)
+        val pokemonResponse = apiService.getPokemonByName(name.toLowerCase())
         Log.d("stat:", pokemonResponse.stats[0].baseStat.toString());
 
         val stats = pokemonResponse.stats.map { statResponse ->
@@ -29,16 +30,36 @@ class PokemonRepository(private val pokemonDao: PokemonDao) {
             PokemonStat(baseStat, PokemonStatInfo(statName, ""))
         }
 
+        val sprites = pokemonResponse.sprites
+
         val pokemon = Pokemon(
             name = pokemonResponse.name,
             height = pokemonResponse.height,
             weight = pokemonResponse.weight,
-            stats = stats
+            stats = stats,
+            sprites = pokemonResponse.sprites,
         )
 
-        val pokemonEntity = PokemonEntity(pokemon.name, pokemon.height, pokemon.weight, pokemon.stats)
+        val pokemonEntity = PokemonEntity(pokemon.name, pokemon.height, pokemon.weight, pokemon.stats, pokemon.sprites.frontDefault)
         pokemonDao.insertPokemon(pokemonEntity)
 
         return pokemon
+    }
+
+    suspend fun getAllPokemons(): List<Pokemon> {
+        val pokemonEntities = pokemonDao.getAllPokemons()
+        return pokemonEntities.toPokemonList()
+    }
+
+    fun List<PokemonEntity>.toPokemonList(): List<Pokemon> {
+        return map { pokemonEntity ->
+            Pokemon(
+                name = pokemonEntity.name,
+                height = pokemonEntity.height,
+                weight = pokemonEntity.weight,
+                stats = pokemonEntity.stats,
+                sprites = PokemonSprites(pokemonEntity.frontDefault)
+            )
+        }
     }
 }

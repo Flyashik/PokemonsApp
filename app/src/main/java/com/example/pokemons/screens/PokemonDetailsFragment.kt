@@ -23,6 +23,8 @@ import com.example.pokemons.databinding.FragmentPokemonDetailsBinding
 import com.example.pokemons.R
 import com.example.pokemons.adapter.PokemonStatsAdapter
 import com.example.pokemons.model.Pokemon
+import com.squareup.picasso.Picasso
+import java.util.*
 
 class PokemonDetailsFragment : Fragment() {
     private lateinit var binding: FragmentPokemonDetailsBinding
@@ -43,8 +45,11 @@ class PokemonDetailsFragment : Fragment() {
 
         val args: PokemonDetailsFragmentArgs by navArgs()
         val pokemon = args.pokemon
+        val label = args.label
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = label.capitalize(Locale.ROOT)
 
-        binding.nameTextView.text = pokemon?.name.toString().toUpperCase()
+        Picasso.get().load(pokemon?.sprites?.frontDefault).resize(360, 360).into(binding.imageView)
+        binding.nameTextView.text = pokemon?.name.toString().capitalize()
         binding.heightTextView.text = "Height: ${pokemon?.height}"
         binding.weightTextView.text = "Weight: ${pokemon?.weight}"
 

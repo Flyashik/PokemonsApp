@@ -12,5 +12,6 @@ data class PokemonEntity(
     val name: String,
     val height: Int,
     val weight: Int,
-    val stats: List<PokemonStat>
+    val stats: List<PokemonStat>,
+    val frontDefault: String
 )

@@ -44,17 +44,23 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[PokemonViewModel::class.java]
 
         binding.searchButton.setOnClickListener {
-            val pokemonName = binding.pokemonNameEditText.text.toString()
+            val pokemonName = binding.pokemonNameEditText.text.toString().trim()
+            viewModel.clearPokemon()
             viewModel.fetchPokemonByName(pokemonName)
+
+            viewModel.pokemon.observe(viewLifecycleOwner) { pokemon ->
+                if (pokemon != null) {
+                    val action = MainFragmentDirections.actionMainFragmentToPokemonDetailFragment()
+                    action.pokemon = pokemon
+                    action.label = pokemon.name
+                    binding.pokemonNameEditText.setText("")
+                    navController.navigate(R.id.pokemonDetailFragment, action.arguments)
+                }
+            }
         }
 
-        viewModel.pokemon.observe(viewLifecycleOwner) { pokemon ->
-            if (pokemon != null) {
-                Log.d("MainFragment", pokemon.stats[0].baseStat.toString())
-                val action = MainFragmentDirections.actionMainFragmentToPokemonDetailFragment()
-                action.pokemon = pokemon
-                navController.navigate(R.id.pokemonDetailFragment, action.arguments)
-            }
+        binding.getPokemonListButton.setOnClickListener {
+            navController.navigate(R.id.pokemonsFragment)
         }
     }
 
