@@ -6,7 +6,7 @@ import com.example.pokemons.db.PokemonDao
 import com.example.pokemons.retrofit.PokemonRepository
 import kotlinx.coroutines.launch
 
-class PokemonViewModel(private val pokemonDao: PokemonDao) : ViewModel() {
+class PokemonViewModel(pokemonDao: PokemonDao) : ViewModel() {
     private val repository = PokemonRepository(pokemonDao)
 
     private val _pokemon = MutableLiveData<Pokemon?>()
@@ -14,6 +14,9 @@ class PokemonViewModel(private val pokemonDao: PokemonDao) : ViewModel() {
 
     private val _pokemonList = MutableLiveData<List<Pokemon>>()
     val pokemonList: LiveData<List<Pokemon>> get() = _pokemonList
+
+    private val _pokemonNames = MutableLiveData<ArrayList<String>>()
+    val pokemonNames: LiveData<ArrayList<String>> get() = _pokemonNames
 
     fun fetchPokemonByName(name: String) {
         viewModelScope.launch {
@@ -33,6 +36,17 @@ class PokemonViewModel(private val pokemonDao: PokemonDao) : ViewModel() {
                 _pokemonList.value = pokemons
             } catch (e: Exception) {
                 println("Failed to fetch Pokemon list: ${e.message}")
+            }
+        }
+    }
+
+    suspend fun getAllPokemonNames() {
+        viewModelScope.launch {
+            try {
+                val pokemonNames = repository.getAllPokemonNames()
+                _pokemonNames.value = pokemonNames
+            } catch (e: Exception) {
+                println("Failed to fetch pokemon names: ${e.message}")
             }
         }
     }

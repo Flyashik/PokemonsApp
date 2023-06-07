@@ -29,3 +29,15 @@ data class PokemonSprites(
     @SerializedName("front_default")
     val frontDefault: String,
 )
+
+data class PokemonListResponse(
+    val count: Int,
+    val next: String?,
+    val previous: String?,
+    val results: ArrayList<PokemonListItem>
+)
+
+data class PokemonListItem(
+    val name: String,
+    val url: String
+)

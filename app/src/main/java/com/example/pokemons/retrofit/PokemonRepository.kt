@@ -7,6 +7,8 @@ import com.example.pokemons.model.Pokemon
 import com.example.pokemons.model.PokemonSprites
 import com.example.pokemons.model.PokemonStat
 import com.example.pokemons.model.PokemonStatInfo
+import com.google.gson.Gson
+import com.google.gson.JsonParser
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -61,5 +63,15 @@ class PokemonRepository(private val pokemonDao: PokemonDao) {
                 sprites = PokemonSprites(pokemonEntity.frontDefault)
             )
         }
+    }
+
+    suspend fun getAllPokemonNames(): ArrayList<String> {
+        val response = apiService.getAllPokemonNames()
+
+        val pokemonNames = ArrayList<String>()
+        response.results.forEach { pokemon ->
+            pokemonNames.add(pokemon.name)
+        }
+        return pokemonNames
     }
 }
