@@ -2,19 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="373dp"
+        android:layout_height="188dp"
+        android:layout_marginTop="40dp"
+        android:contentDescription="Pokemon logo"
+        android:src="?attr/logo" />
 
     <AutoCompleteTextView
         android:id="@+id/pokemonNameEditText"
         android:layout_width="367dp"
         android:layout_height="48dp"
+        android:layout_marginTop="40dp"
         android:hint="Enter Pokemon Name" />
 
     <Button
         android:id="@+id/searchButton"
         android:layout_width="174dp"
         android:layout_height="65dp"
+        android:layout_marginTop="15dp"
         android:text="Catch!" />
 
     <Button

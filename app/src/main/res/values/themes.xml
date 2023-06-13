@@ -13,5 +13,6 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/light_sand</item>
+        <item name="logo">@drawable/logo_light</item>
     </style>
 </resources>
